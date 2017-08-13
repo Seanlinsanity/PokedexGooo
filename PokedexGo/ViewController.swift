@@ -108,6 +108,17 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        var poke: Pokemon!
+        
+        if inSearchMode {
+            poke = filteredPokemon[indexPath.row]
+        
+        }else{
+            poke = pokemon[indexPath.row]
+        }
+        
+        performSegue(withIdentifier: "PokemonDetailVC", sender: poke)
+        
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -171,5 +182,20 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         
         
     }
+    //prepare the segway and gonna send any object
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "PokemonDetailVC"
+        {
+            if let detailsVC = segue.destination as? PokemonDetailVC  //Define the detailsVC (destionation VC) is PokemonDetailVC
+            {
+                if let poke = sender as? Pokemon  //poke is the sender and it's the class of Pokemon
+                {
+                    detailsVC.pokemon = poke    //set pokemon(the variable of destination VC) is eqaul to the  poke(the variable in this VC).
+                }
+            }
+        }
+    }
+
+    
 }
 
